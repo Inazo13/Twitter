@@ -1,0 +1,1 @@
+start "" "C:/Users/noabu/AppData/Local/Programs/Python/Python39/python.exe" "C:/Users/noabu/Documents/Twitter/code/bot_twitter.py"
