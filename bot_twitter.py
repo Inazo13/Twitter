@@ -3,10 +3,10 @@ import datetime
 import time
 import csv
 
-api_key = "2rVzJhOb4t9wHfg8Ew2DBMYy5"
-api_key_secret = "0Vvf8Goc52uYKFhDlbSYWhoHDBkBdgPyanPuM8fokrMyHGPKTE"
-access_token = "1476177291105419265-GstGbjgFHhQCjmCLpjDae32U4NKWk9"
-access_token_secret = "Sk9YxmcW1yP50X2z1bdwl35LqJGPjN4lvHsdteM8pNo7T"
+api_key = <consumer_key>
+api_key_secret = <consumer_key_secret>
+access_token = <access_token>
+access_token_secret = <access_token_secret>
 
 api = twitter.Api(api_key,
                   api_key_secret,
@@ -50,4 +50,4 @@ def search(date, keys):
             reponse('@'+ search.user.screen_name +" Shawn Froste s'écrit avec un E bg !!", search.id)
 
 
-search("2022-01-03", "shawn frost")
+search(datetime.date.today(, "shawn frost")
