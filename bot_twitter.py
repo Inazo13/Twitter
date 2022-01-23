@@ -19,10 +19,18 @@ def end_text(tweet):
     return tweet.lower().endswith("@shawnfrostebot")
 
 def text(tweet, keyword):
-    if keyword in tweet.lower() and 'RT' not in tweet:
-        return True
-    else:
+    indice = tweet.lower().find(keyword)
+    if indice==-1:
         return False
+    elif indice+11<=len(tweet)-11:
+        if tweet.lower()[indice+11]=='e':
+            return False
+        else:
+            if 'RT' not in tweet:
+                return True
+    else:
+        if 'RT' not in tweet:
+            return True
 
 def read_csv():
     ids = []
