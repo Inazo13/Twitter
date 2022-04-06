@@ -14,27 +14,18 @@ api = twitter.Api(api_key,
                   access_token,
                   access_token_secret)
 
-
-def end_text(tweet):
-    return tweet.lower().endswith("@shawnfrostebot")
+def end(message, name):
+    return message.strip().endswith(f'@shawnfrostebot {name}')
 
 def text(tweet, keyword):
-    indice = tweet.lower().find(keyword)
-    if indice==-1:
-        return False
-    elif indice+11<=len(tweet)-11:
-        if tweet.lower()[indice+11]=='e':
-            return False
-        else:
-            if 'RT' not in tweet:
-                return True
+    if ( (' ' + keyword.lower() + ' ') in (' ' + tweet.lower() + ' ') or (' ' + keyword.lower() + '\n') in (' ' + tweet.lower() + ' ') ) and 'RT' not in tweet:
+        return True
     else:
-        if 'RT' not in tweet:
-            return True
+        return False
 
 def read_csv():
     ids = []
-    with open("C:/Users/noabu/Documents/Twitter/code/id.csv", 'r', newline='') as f:
+    with open(id.csv, 'r', newline='') as f:
         for line in f:
             id_ligne = line.strip()
             ids.append(id_ligne)
@@ -47,53 +38,71 @@ def deja_repondu(tweet_id):
             return True
     return False
 
-def deuxieme_personne(tweet):
-    autre = ""
-    fini = False
-    n=0
-    while fini == False:
-        if tweet[n] == " ":
-            fini = True
-        else:
-            autre += tweet[n]
-        n+=1
-    return autre
+def choix_message(tweet, keyword):
+    if "adore" in tweet:
+        messages = [" Moi aussi j'adore " + keyword + "e mais avec un E bg 👍",
+                    " Gouts de roi mais " + keyword + "e bg 👍",
+                    " Ici on l'adore aussi mais avec un E " + keyword]
+        message = random.choice(messages)
+    elif "préféré" in tweet:
+        messages = [" Moi aussi c'est un de mes persos pref mais c'est " + keyword + "e bg 👍", 
+                    " Moi aussi Shawn FROSTE* c'est un de mes persos prefs",
+                    " Perso ici on préfère " + keyword + "e"]
+        message = random.choice(messages)
+    elif "bipolaire" in tweet:
+        messages = [" Pour info bg le bipolaire en question s'appelle " + keyword + "e !", 
+                    " Certes c'est un taré dans la S2 mais juste pour info c'est " + keyword + "e 👍",
+                    " Le bipolaire d'Inazuma Eleven c'est " + keyword + "e avec un E bg 👍"]
+        message = random.choice(messages)
+    else:
+        messages = [" Il est dans quel série ce personnage ?? Inazuma Twelve ?? Car dans Inazuma Eleven c'est " + keyword + "e bg 👍", 
+                    " Je ne connais pas ce personnage mais " + keyword + "e oui bg 👍",
+                    " " + keyword + "e sans le E est une fraude mais parce contre avec c'est un GOAT",
+                    " Je connais aucun " + keyword + " mais par contre " + keyword + "e quel masterclass !!",
+                    " Le joueur d'Alpin s'appelle " + keyword + "e et non Frost bg 👍",
+                    " On est tous fans de la même oeuvre donc je me permet de te dire que c'est " + keyword + "e",
+                    " Un lien pour regarder Inazuma Twelve ?? Car " + keyword + " n'existe pas mais " + keyword + "e oui 👍"]
+        message = random.choice(messages)
+    return message
+    
+
 
 def reponse(update, id_user):
     api.PostUpdate(update, in_reply_to_status_id=id_user)
 
-def search(date, keys, messages):
-    searchResult = api.GetSearch(raw_query='q='+keys+'&result_type=recent&since='+str(date)[0:10]+'&count=50')
+
+def search(date, keys):
+    searchResult = api.GetSearch(raw_query='q='+keys.lower()+'&result_type=recent&since='+str(date)[0:10]+'&count=50&lang=fr')
     for search  in searchResult:
-        if text(search.text, keys) and deja_repondu(search.id_str)==False:
+        if text(search.text, keys) and deja_repondu(search.id_str) == False and search.user.screen_name != "shawnfrostebot":
             with open("id.csv", "a+", newline="") as f:
                 csv_writer = csv.writer(f, delimiter=';')
                 csv_writer.writerow([search.id])
-                message = random.choice(messages)
-            reponse('@'+ search.user.screen_name + message, search.id)
+                message = choix_message(search.text, keys)
+            reponse(f"@{search.user.screen_name} {message}", search.id)
             time.sleep(15)
 
-def mentions(messages):
+def mentions():
     searchResults = api.GetMentions()
     for search in searchResults:
-        if end_text(search.text) and deja_repondu(search.id_str)==False:
-            autre = deuxieme_personne(search.text)
+        if end(search.text.lower(), "aiden") and deja_repondu(search.id_str) == False:
+            autre = search.text.split(None, 1)
             with open("id.csv", "a+", newline="") as f:
                 csv_writer = csv.writer(f, delimiter=';')
                 csv_writer.writerow([search.id])
-                message = random.choice(messages)
-            reponse('@'+ search.user.screen_name + ' ' + autre + message, search.id)
+                message = choix_message(search.text, 'Aiden Frost')
+            reponse(f"{autre[0]} @{search.user.screen_name} {message}", search.id)
+            time.sleep(15)
+        elif end(search.text.lower(), "shawn") and deja_repondu(search.id_str) == False:
+            autre = search.text.split(None, 1)
+            with open("id.csv", "a+", newline="") as f:
+                csv_writer = csv.writer(f, delimiter=';')
+                csv_writer.writerow([search.id])
+                message = choix_message(search.text, 'Shawn Frost')
+            reponse(f"{autre[0]} @{search.user.screen_name} {message}", search.id)
             time.sleep(15)
 
-messages = [
-    " Shawn Froste s'écrit avec un E bg !! Shawn Froste is spelled with an E !!",
-    " Shawn Froste avec un E s'il te plait !! Shawn Froste with an E please !!",
-    " SHAWN FROSTE !!!",
-    " Shawn Froste sans E n'existe pas !! Shawn Froste without an E doesn't exist !!",
-    " Ecrit le correctement bg : Shawn Froste !! Write it correctly plz : Shawn Froste",
-    " Ça ne s'écrit pas Frost mais Froste ... It's not spelled Frost but Froste",
-    " S'il te plait écrit le Froste mais pas Frost !! Please write it Froste but not Frost !!"
-]
 
-mentions(messages)
-search(datetime.datetime.now(datetime.timezone.utc), "shawn frost", messages)
+search(datetime.datetime.now(datetime.timezone.utc), "Shawn Frost")
+search(datetime.datetime.now(datetime.timezone.utc), "Aiden Frost")
+mentions()
