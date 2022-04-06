@@ -2,6 +2,7 @@
 
 J'ai crée un bot qui répond automatiquement aux personnes qui écrivent mal le nom de Shawn Froste,
 le fameux personnage d'Inazuma Eleven en l'écrivant Shawn Frost.
+
 J'ai également ajouté le fait que le bot réponde quand il s'agit du frère de Shawn Froste, Aiden Froste
 
 Le bot peut
