@@ -10,3 +10,8 @@ Le bot peut
 - répondre quand on l'identifie sous la forme: @shawnfrostebot + nom d'un des deux frères
 
 exemple: @shawnfrostebot aiden --> Je connais aucun Aiden Frost mais par contre Aiden Froste quel masterclass !!
+
+La seule limite du bot sont le fait qu'on fait une recherche uniquement sur les tweets français or Twitter
+considère 'Shawn Frost' seul dans un tweet comme un tweet anglais même s'il a été rédigé par un français.
+
+Le fait d'analyser uniquement les tweets français est du à des embrouilles avec la communauté espagnole
