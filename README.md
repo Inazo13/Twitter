@@ -15,3 +15,6 @@ La seule limite du bot sont le fait qu'on fait une recherche uniquement sur les 
 considère 'Shawn Frost' seul dans un tweet comme un tweet anglais même s'il a été rédigé par un français.
 
 Le fait d'analyser uniquement les tweets français est du à des embrouilles avec la communauté espagnole
+
+
+[Le compte du bot]"https://twitter.com/shawnfrostebot"
