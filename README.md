@@ -17,4 +17,4 @@ considère 'Shawn Frost' seul dans un tweet comme un tweet anglais même s'il a 
 Le fait d'analyser uniquement les tweets français est du à des embrouilles avec la communauté espagnole
 
 
-[Le compte du bot]"https://twitter.com/shawnfrostebot"
+[Le compte Twitter du bot](https://twitter.com/shawnfrostebot)
